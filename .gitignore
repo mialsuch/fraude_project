@@ -219,12 +219,11 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-.venv/
-mlruns/
-mlflow.db
-mlflow_store/
 
-.venv/
+# MLflow y servicios (se generan al ejecutar, no se versionan)
 mlruns/
 mlflow.db
 mlflow_store/
+mlartifacts/
+services/.venv/
+services/prefect_home/
