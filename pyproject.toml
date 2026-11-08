@@ -1,27 +1,23 @@
-[project]
+[tool.poetry]
 name = "fraude-project"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "Your Name",email = "you@example.com"}
-]
-readme = "README.md"
-requires-python = ">=3.12,<3.15"
-dependencies = [
-    "prefect (==3.8.8)",
-    "mlflow (==3.17.0)",
-    "scikit-learn (==1.9.1)",
-    "pandas (==3.0.6)",
-    "numpy (==2.5.4)",
-    "pyyaml (==6.0.3)"
-]
+authors = ["Miguel Suarez <mschsuarez@gmail.com>"]
+package-mode = false
 
+[tool.poetry.dependencies]
+python = ">=3.12,<3.15"
+prefect = "==3.8.8"
+mlflow = "==3.17.0"
+scikit-learn = "==1.9.1"
+pandas = "==3.0.6"
+numpy = "==2.5.4"
+pyyaml = "==6.0.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "==9.1.1"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[dependency-groups]
-dev = [
-    "pytest (==9.1.1)"
-]
