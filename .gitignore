@@ -227,3 +227,8 @@ mlflow_store/
 mlartifacts/
 services/.venv/
 services/prefect_home/
+
+
+
+# Datos de Kaggle
+data/*.csv
