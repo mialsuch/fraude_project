@@ -1,0 +1,21 @@
+# Configuración del proyecto de detección de fraude.
+
+datos:
+  ruta_train: data/train.csv     # relativa a la raíz del repositorio
+  ruta_test: data/test.csv
+  separador: ";"                 # los CSV de la competencia usan punto y coma
+  fuente: https://www.kaggle.com/competitions/modelos-de-fraude-2026/data
+
+variables:
+  id: ID                         # cédula del cliente: identifica, no predice
+  objetivo: Fraude               # 1 = fraude, 0 = no fraude
+  numericas: [Num_Tarjetas, Balance_Tj, Total_Transac, Trans_Int]
+  categoricas: [Estado, Genero, Tipo_Tarjeta]
+
+division:
+  test_size: 0.2
+  random_state: 42
+
+mlflow:
+  tracking_uri: http://localhost:5000   # MLFLOW_TRACKING_URI, si existe, tiene prioridad
+  experimento: fraude-datos
