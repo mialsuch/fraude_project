@@ -1,0 +1,48 @@
+# Configuración del proyecto de detección de fraude.
+
+datos:
+  ruta_train: data/train.csv     # relativa a la raíz del repositorio
+  ruta_test: data/test.csv
+  separador: ";"                 # los CSV de la competencia usan punto y coma
+  fuente: https://www.kaggle.com/competitions/modelos-de-fraude-2026/data
+
+variables:
+  id: ID                         # cédula del cliente: identifica, no predice
+  objetivo: Fraude               # 1 = fraude, 0 = no fraude
+  numericas: [Num_Tarjetas, Balance_Tj, Total_Transac, Trans_Int]
+  categoricas: [Estado, Genero, Tipo_Tarjeta]
+
+division:
+  test_size: 0.2
+  random_state: 42
+
+mlflow:
+  tracking_uri: http://localhost:5000   # MLFLOW_TRACKING_URI, si existe, tiene prioridad
+  experimento: fraude-datos             # flow de datos (actividad 1)
+  experimento_modelo: fraude-modelo     # entrenamiento e inferencia (actividad 2)
+
+
+# Actividad 2: modelos que compara el flow de entrenamiento. Cada uno es un run en MLflow.
+candidatos:
+  - nombre_run: fraude-logreg
+    tipo: logistic_regression
+    parametros:
+      C: 1.0
+      max_iter: 1000
+  - nombre_run: fraude-hgb
+    tipo: hist_gradient_boosting
+    parametros:
+      max_iter: 200
+      learning_rate: 0.1
+      random_state: 42
+
+metricas:
+  umbral: 0.5                    # probabilidad a partir de la cual se predice fraude
+
+registro:
+  nombre_modelo: fraude-modelo   # nombre en el Model Registry de MLflow
+  umbral_auc: 0.90               # AUC mínimo para ser champion; además debe superar al champion actual
+
+inferencia:
+  tamano_lote: 1000              # clientes de test.csv que se puntúan en cada ejecución diaria
+  carpeta_salida: data/predicciones
