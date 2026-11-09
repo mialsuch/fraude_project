@@ -2,7 +2,7 @@
 #   ALL:     todas las variables (numéricas y categóricas de config.yaml)
 #   NUMERIC: solo las numéricas
 #   CUSTOM:  solo las listadas en `custom` (nombres exactos de las columnas del CSV)
-seleccion: NUMERIC
+seleccion: ALL
 
 custom:
   - Balance_Tj
