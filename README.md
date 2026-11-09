@@ -1,7 +1,7 @@
 ﻿# Fraude Project – Detección de fraude bancario con MLOps
 
 Proyecto del curso *MLOps en Python – De la práctica a la producción*.
-El objetivo es predecir si un cliente de una entidad bancaria comete **fraude** (`Fraude = 1`) o no.
+El objetivo es predecir si un cliente de una entidad bancaria comete **fraude** (`Fraude = 1`) o no,
 con un flujo reproducible: entorno fijado con **Poetry**, orquestación con **Prefect** y trazabilidad con **MLflow**.
 
 **Integrantes:** Miguel Suárez · Francisco Álvarez
