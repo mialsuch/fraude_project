@@ -44,5 +44,16 @@ registro:
   umbral_auc: 0.90               # AUC mínimo para ser champion; además debe superar al champion actual
 
 inferencia:
-  tamano_lote: 1000              # clientes de test.csv que se puntúan en cada ejecución diaria
+  tamano_lote: 1000              # clientes de la parte de prueba de train.csv que se puntúan en cada ejecución
+  semilla_lote: 42               # misma muestra base en cada ejecución: los niveles de drift son comparables
+  nivel_drift: 0.0               # emulación de drift: 0.0 (sin drift), 0.3 o 0.6 (ver monitoreo.aplicar_drift)
   carpeta_salida: data/predicciones
+
+# Actividad 3: detección de drift.
+monitoreo:
+  carpeta_lotes: data/lotes      # copia del lote que puntúa la inferencia (lote_nivel_X.X.csv), la leen los flows de drift
+  carpeta_reportes: reports      # reportes HTML de Evidently (ignorados por git)
+  tamano_referencia: 20000       # filas de entrenamiento usadas como referencia en Evidently (muestra, por velocidad)
+  subida_tasa_maxima: 0.3        # con nivel 1.0, la tasa de fraude del lote sube 30 puntos
+  umbral_drift: 0.2              # fracción de variables con drift a partir de la cual se emite una alerta
+  alfa_evento: 0.05              # p-valor por debajo del cual el cambio en la tasa de fraude es drift

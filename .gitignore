@@ -233,3 +233,7 @@ services/prefect_home/
 # Datos de Kaggle
 data/*.csv
 data/predicciones/
+
+
+data/lotes/
+reports/
