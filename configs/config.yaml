@@ -46,7 +46,7 @@ registro:
 inferencia:
   tamano_lote: 1000              # clientes de la parte de prueba de train.csv que se puntúan en cada ejecución
   semilla_lote: 42               # misma muestra base en cada ejecución: los niveles de drift son comparables
-  nivel_drift: 0.0               # emulación de drift: 0.0 (sin drift), 0.3 o 0.6 (ver monitoreo.aplicar_drift)
+  nivel_drift: 0.0              # emulación de drift: 0.0 (sin drift), 0.3 o 0.6 (ver monitoreo.aplicar_drift)
   carpeta_salida: data/predicciones
 
 # Actividad 3: detección de drift.
