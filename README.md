@@ -104,3 +104,26 @@ Sin `PREFECT_API_URL`, Prefect crea un servidor temporal y el run no aparece en 
 Capturas en [docs/evidencias](docs/evidencias): UIs de MLflow y Prefect, run `prueba` (Completed, `Suma de 1 a 5 = 15`),
 experimento `prueba-validacion` (`n = 5`, `suma = 15`), run `datos-fraude` y experimento `fraude-datos`
 (`filas_train = 848548`, `filas_test = 200027`, `proporcion_fraude = 0.0599`).
+
+
+## Actividad 3: monitoreo de drift y tests
+
+| Pieza | Archivo | Ejecución (desde la raíz) |
+|---|---|---|
+| Lógica de drift (sin Prefect ni MLflow) | `src/monitoring/monitoreo.py` | — |
+| Inferencia con drift emulado | `src/pipelines/inferencia_flow.py` | `poetry run python -m src.pipelines.inferencia_flow` |
+| Drift de features (Evidently) | `src/pipelines/drift_features_flow.py` | `poetry run python -m src.pipelines.drift_features_flow` |
+| Drift de evento (tasa de fraude) | `src/pipelines/drift_evento_flow.py` | `poetry run python -m src.pipelines.drift_evento_flow` |
+| Tests | `tests/` | `poetry run pytest -v` |
+
+**Drift emulado** (`inferencia.nivel_drift` en `configs/config.yaml`): el lote se toma de la parte de prueba de `train.csv` (trae la etiqueta real `Fraude`, que `test.csv` no tiene). Con nivel *n*, se desplazan `round(n × 4)` variables numéricas en +2 desviaciones típicas y la tasa de fraude sube `n × 30` puntos. Cada ejecución guarda el lote en `data/lotes/lote_nivel_X.X.csv` (no versionado).
+
+**Flujo:** fijar `nivel_drift` → inferencia → drift de features → drift de evento. Los reportes HTML quedan en `reports/`.
+
+| Nivel | Fraude real del lote | Variables con drift | Alerta de features (umbral 20 %) | Drift de evento (α = 0,05) |
+|---|---|---|---|---|
+| 0.0 | 5,2 % | 0 % | No | No (p = 0,33) |
+| 0.3 | 14,2 % | 14 % (1/7) | No | **Sí** (p ≈ 1,7·10⁻²⁷) |
+| 0.6 | 23,2 % | 29 % (2/7) | **Sí** | **Sí** (p ≈ 2,9·10⁻¹¹⁵) |
+
+**Tests (48):** datos (esquema, rangos, nulos), modelo, inferencia y API con modelo falso (sin MLflow), y lógica de drift. Las pruebas de datos se saltan si `data/train.csv` no está descargado.
