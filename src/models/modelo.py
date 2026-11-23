@@ -57,3 +57,17 @@ def calcular_metricas(y_true, proba, umbral):
         "recall": float(recall_score(y_true, pred, zero_division=0)),
         "f1": float(f1_score(y_true, pred, zero_division=0)),
     }
+    
+#Predecir
+
+
+def predecir(modelo, lote, umbral):
+    """Añade al lote la probabilidad de fraude y la predicción (0/1) del modelo.
+
+    Usa solo las columnas con las que se entrenó el modelo (`feature_names_in_`).
+    """
+    proba = modelo.predict_proba(lote[list(modelo.feature_names_in_)])[:, 1]
+    resultado = lote.copy()
+    resultado["probabilidad_fraude"] = proba
+    resultado["prediccion"] = (proba >= umbral).astype(int)
+    return resultado
